@@ -25,7 +25,20 @@
         </nav>
     </header>
     <main class="main-display">
+        <ul class="playlist"></ul>
+        <section class="music-player">
+            <p class="current-music-card"></p>
+            <audio id="audio"></audio>
+        
+            <div class="controls">
+              <button id="prev">⏮️</button>
+              <button id="play">▶️</button>
+              <button id="next">⏭️</button>
+            </div>
+        
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
 
+        </section>
     </main>
 
     <script type="module" src="script.js"></script>

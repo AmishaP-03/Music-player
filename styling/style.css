@@ -62,8 +62,36 @@ header {
 }
 
 main {
+    display: flex;
     background-color: black;
     height: 88%;
+
+    & ul {
+        margin: 0;
+        padding: 2rem;
+        border-right: 0.5rem solid #f4ebcd;
+
+        & button {
+            cursor: pointer;
+            padding: 0;
+        }
+        & img {
+            height: 12rem;
+            width: 12rem;
+
+        }
+    }
+
+    & .music-player {
+        margin: auto;
+
+        & .current-music-card {
+            & img {
+                height: 20rem;
+                width: 20rem;
+            }
+        }
+    }
 }
 
   
