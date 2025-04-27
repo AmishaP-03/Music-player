@@ -1,0 +1,13 @@
+{
+    "MSC1" : {
+        "path": "./assests/music/happy-birthday-254480.mp3",
+        "cardImg": ".assests/music-card/HBD.jpeg"
+    },
+    "MSC2" : {
+        "path": "./assests/music/background-music-summer-tropical-house-for-short-video-vlog-and-promo-163721.mp3"
+    },
+    "MSC3" : {
+        "path": "./assests/music/twinkle-twinkle-little-star-background-childrenx27s-music-30-sec-178225.mp3",
+        "cardImg": ".assests/music-card/stars.png"
+    }
+}
