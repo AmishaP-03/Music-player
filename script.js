@@ -5,13 +5,12 @@ import jsonData from './music-configuration.json' with { type: "json" };
 // let playlist;
 
 // fetch('./music-configuration.json')
-// .then((response) => {
-//     console.log(response);
+// .then((response) => { // response = raw data; Response object
 //     if (!response.ok) {
 //         throw new Error(`HTTP error! Status: ${response.status}`);
 //     }
 
-//     return response.json();
+//     return response.json(); // parses the raw data and convert it into understandable json format
 // })
 // .then(data => {
 //     playlist = data;
@@ -19,10 +18,18 @@ import jsonData from './music-configuration.json' with { type: "json" };
 // })
 // .catch(error => console.error('Failed to fetch data:', error));'
 
+let currentAudioIndex = 0;
+const keysInJsonData = Object.keys(jsonData);
 
 // using indexHTML is fine here as the data is coming from a trusted source
 const parentListElement = document.querySelector('.playlist');
 let childListElement = '';
+
+const audioElement = document.getElementById('audio');
+const previousButton = document.getElementById('prev');
+const playButton = document.getElementById('play');
+const nextButton = document.getElementById('next');
+const volumeSlider = document.getElementById('volume');
 
 for(const i in jsonData) {
   const imagePath = jsonData[i].cardImg || './assets/musicCards/fallback.jpeg';
@@ -33,14 +40,59 @@ parentListElement.innerHTML = childListElement;
 
 function loadSong(id) {
   const currentMusicCard = document.querySelector('.current-music-card');
-  const imgElement = document.createElement('img');
+  const currentMusicImg = currentMusicCard.querySelector('img');
+  const newMusicImg = document.createElement('img');
 
-  imgElement.src = jsonData[id].cardImg || './assets/musicCards/fallback.jpeg';
-  imgElement.alt = id;
+  newMusicImg.src = jsonData[id].cardImg || './assets/musicCards/fallback.jpeg';
+  newMusicImg.alt = id;
 
-  currentMusicCard.appendChild(imgElement);
-  musicPlayerSection.appendChild(currentMusicCard); // Using apendChild so as to not overwrite other content in a cleaner fashion
+  if (currentMusicImg) {
+    currentMusicCard.replaceChild(newMusicImg, currentMusicImg); // replacing the existing card
+  } else {
+    currentMusicCard.appendChild(newMusicImg);
+  }
+
+  audioElement.src = jsonData[id].path;
+
+  previousButton.disabled = currentAudioIndex === 0;
+  nextButton.disabled = currentAudioIndex === keysInJsonData.length - 1;
 }
 
-loadSong('MSC1');
+loadSong(keysInJsonData[currentAudioIndex]);
+
+function playAudio() {
+  audioElement.play();
+  const pauseImgSource = './assets/controls/pause.png'
+  playButton.innerHTML = `<img src=${pauseImgSource} />`; // trustworthy source
+}
+
+function pauseAudio() {
+  audioElement.pause();
+  const playImgSource = './assets/controls/play.png'
+  playButton.innerHTML = `<img src=${playImgSource} />`;
+}
+
+playButton.addEventListener('click', () => {
+  if (audioElement.paused) {
+    playAudio();
+  } else {
+    pauseAudio();
+  }
+});
+
+previousButton.addEventListener('click', () => {
+  --currentAudioIndex;
+  loadSong(keysInJsonData[currentAudioIndex]);
+  playAudio();
+});
+
+nextButton.addEventListener('click', () => {
+  ++currentAudioIndex;
+  loadSong(keysInJsonData[currentAudioIndex]);
+  playAudio();
+});
+
+volumeSlider.addEventListener('input', (event) => {
+  audioElement.volume = event.target.value;
+});
 

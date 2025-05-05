@@ -92,6 +92,21 @@ main {
             }
         }
     }
+
+    & .controls {
+        & button {
+            cursor: pointer;
+
+            & img {
+                width: 2rem;
+            }
+        }
+    }
+
+    & input {
+        cursor: pointer;
+        accent-color: antiquewhite;
+    }
 }
 
   
