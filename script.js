@@ -33,10 +33,11 @@ const volumeSlider = document.getElementById('volume');
 
 for(const i in jsonData) {
   const imagePath = jsonData[i].cardImg || './assets/musicCards/fallback.jpeg';
-  childListElement += `<li><button><img src=${imagePath} alt=${i} /></button></li>`;
+  childListElement += `<li><button><img src=${imagePath} alt=${i} id=${i} /></button></li>`;
 }
 
 parentListElement.innerHTML = childListElement;
+const playlistElement = parentListElement.querySelectorAll('button');
 
 function loadSong(id) {
   const currentMusicCard = document.querySelector('.current-music-card');
@@ -59,6 +60,16 @@ function loadSong(id) {
 }
 
 loadSong(keysInJsonData[currentAudioIndex]);
+
+playlistElement.forEach((elt) => {
+  elt.addEventListener('click', (event) => {
+    const selectedAudioId = event.target.id;
+    currentAudioIndex = keysInJsonData.indexOf(selectedAudioId);
+    loadSong(selectedAudioId);
+    playAudio();
+  });
+})
+
 
 function playAudio() {
   audioElement.play();
